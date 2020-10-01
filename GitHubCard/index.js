@@ -4,10 +4,16 @@
     https://api.github.com/users/<your name>
 */
 
+// get request
+import axios from 'axios';
+axios.get('https://api.github.com/users/ChristopherCorvo')
+
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
     data in order to use it to build your component function
+
+    I used httpie.org and also tried it in the browser
 
     Skip to STEP 3.
 */
@@ -16,6 +22,22 @@
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
 */
+  axios.get('https://api.github.com/users/ChristopherCorvo')
+    .then(result => {
+
+      let gitHubData = result.data;
+      // gitHubProfileMaker({result:avatar_url, result:name, result:login, 
+      //   result:location, result:html_url, result:followers_url, result:following_url, result:bio})
+
+      console.log(result.data)
+    })
+
+    .then (error => {
+
+    })
+
+
+
 
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
@@ -58,3 +80,69 @@ const followersArray = [];
     luishrd
     bigknell
 */
+
+function gitHubProfileMaker (Object) {
+
+  // instantiating the elements
+
+  const card = document.createElement('div')
+  const image = document.createElement('img')
+  const cardInfo = document.createElement('div')
+
+  const nameH3 = document.createElement ('h3')
+  const username = document.createElement('p')
+  const locationDiv = document.createElement('p')
+  const profileDiv = document.createElement('p')
+
+  const profileURL = document.createElement('a')
+
+  const followersP = document.createElement('p')
+  const followingP = document.createElement('p')
+  const bio = document.createElement('p')
+
+  // Setting class names 
+
+  card.classList.add('card')
+  cardInfo.classList.add('card-info')
+  nameH3.classList.add('name')
+  username.classList.add('username')
+
+  // connecting elements to objects i.e set attributes
+
+  image.src = avatar_url;
+
+  nameH3.textContent = name
+
+  username.textContent = login
+
+  username.textContent = location
+
+  profileURL.textContent = html_url
+
+  followersP.textContent = followers_url
+
+  followingP.textContent = following_url
+
+  bio.textContent = bio
+
+
+
+
+
+  
+  // creating the hiearchy
+  document.querySelector('.cards').appendChild(card);
+  card.appendChild(image) 
+  card.appendChild(cardInfo)
+
+  cardInfo.appendChild(nameH3)
+  cardInfo.appendChild(username)
+  cardInfo.appendChild(locationDiv)
+  cardInfo.appendChild(profileDiv)
+  cardInfo.appendChild(followersP)
+  cardInfo.appendChild(followingP)
+
+  profileDiv.appendChild(profileURL)
+
+  return card;
+}
