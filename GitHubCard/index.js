@@ -24,21 +24,14 @@ axios.get('https://api.github.com/users/ChristopherCorvo')
 */
   axios.get('https://api.github.com/users/ChristopherCorvo')
     .then(result => {
-
       let gitHubData = result.data;
-      // gitHubProfileMaker({result:avatar_url, result:name, result:login, 
-      //   result:location, result:html_url, result:followers_url, result:following_url, result:bio})
-
-      console.log(result.data)
+      let gitHubProfile = gitHubProfileMaker(gitHubData) // this is the problem
+      let mainDiv = document.querySelector('.cards').appendChild(gitHubProfile);
     })
-
     .then (error => {
-
     })
 
-
-
-
+   
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
     follow this link in your browser https://api.github.com/users/<Your github name>/followers,
@@ -50,7 +43,22 @@ axios.get('https://api.github.com/users/ChristopherCorvo')
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['https://api.github.com/users/yirano','https://api.github.com/users/MattBokovitz1','https://api.github.com/users/clbmiami2004',
+'https://api.github.com/users/MorganWilliamson'];
+
+
+followersArray.forEach(i => {
+  axios.get(i)
+    .then(obj => {
+      let gitHubData = obj.data;
+      let gitHubProfile = gitHubProfileMaker(gitHubData);
+      let mainDiv = document.querySelector('.cards').appendChild(gitHubProfile);
+      
+    })
+    .then (() => {
+
+    })
+})
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -81,21 +89,18 @@ const followersArray = [];
     bigknell
 */
 
-function gitHubProfileMaker (Object) {
+function gitHubProfileMaker (object) {
 
   // instantiating the elements
 
   const card = document.createElement('div')
   const image = document.createElement('img')
   const cardInfo = document.createElement('div')
-
   const nameH3 = document.createElement ('h3')
   const username = document.createElement('p')
   const locationDiv = document.createElement('p')
   const profileDiv = document.createElement('p')
-
   const profileURL = document.createElement('a')
-
   const followersP = document.createElement('p')
   const followingP = document.createElement('p')
   const bio = document.createElement('p')
@@ -109,39 +114,19 @@ function gitHubProfileMaker (Object) {
 
   // connecting elements to objects i.e set attributes
 
-  image.src = avatar_url;
+  image.src = object.avatar_url;
+  nameH3.textContent = object.name;
+  username.textContent = object.login;
+  locationDiv.textContent = object.location;
+  profileURL.textContent = object.html_url;
+  followersP.textContent = `followers ${object.followers}`;
+  followingP.textContent = `following ${object.following}`;
+  bio.textContent = object.bio;
 
-  nameH3.textContent = name
-
-  username.textContent = login
-
-  username.textContent = location
-
-  profileURL.textContent = html_url
-
-  followersP.textContent = followers_url
-
-  followingP.textContent = following_url
-
-  bio.textContent = bio
-
-
-
-
-
-  
   // creating the hiearchy
-  document.querySelector('.cards').appendChild(card);
-  card.appendChild(image) 
-  card.appendChild(cardInfo)
-
-  cardInfo.appendChild(nameH3)
-  cardInfo.appendChild(username)
-  cardInfo.appendChild(locationDiv)
-  cardInfo.appendChild(profileDiv)
-  cardInfo.appendChild(followersP)
-  cardInfo.appendChild(followingP)
-
+  
+  card.append(image,cardInfo)
+  cardInfo.append(nameH3, username, locationDiv, profileDiv, followersP, followingP)
   profileDiv.appendChild(profileURL)
 
   return card;
