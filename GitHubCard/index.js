@@ -30,7 +30,6 @@ axios.get('https://api.github.com/users/ChristopherCorvo')
     })
     .then (error => {
     })
-
    
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
@@ -118,11 +117,11 @@ function gitHubProfileMaker (object) {
   image.src = object.avatar_url;
   nameH3.textContent = object.name;
   username.textContent = object.login;
-  locationDiv.textContent = object.location;
-  profileURL.textContent = object.html_url;
-  followersP.textContent = `followers ${object.followers}`;
-  followingP.textContent = `following ${object.following}`;
-  bio.textContent = object.bio;
+  locationDiv.textContent = `Location: ${object.location}`;
+  profileURL.textContent = `URL: ${object.html_url}`;
+  followersP.textContent = `Followers: ${object.followers}`;
+  followingP.textContent = `Following: ${object.following}`;
+  bio.textContent = `Bio: ${object.bio}`;
 
   // creating the hiearchy
   
