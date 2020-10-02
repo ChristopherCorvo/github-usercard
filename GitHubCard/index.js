@@ -42,12 +42,17 @@ axios.get('https://api.github.com/users/ChristopherCorvo')
     user, and adding that card to the DOM.
 */
 
-const followersArray = ['https://api.github.com/users/yirano','https://api.github.com/users/MattBokovitz1','https://api.github.com/users/clbmiami2004',
-'https://api.github.com/users/MorganWilliamson'];
+const followersArray = [
+  'tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell'
+];
 
 
-followersArray.forEach(i => {
-  axios.get(i)
+followersArray.forEach(item => {
+  axios.get(`https://api.github.com/users/${item}`)
     .then(obj => {
       let gitHubData = obj.data;
       let gitHubProfile = gitHubProfileMaker(gitHubData);
@@ -118,7 +123,9 @@ function gitHubProfileMaker (object) {
   nameH3.textContent = object.name;
   username.textContent = object.login;
   locationDiv.textContent = `Location: ${object.location}`;
-  profileURL.textContent = `URL: ${object.html_url}`;
+  profileDiv.textContent = 'Profile: '
+  profileURL.href = object.html_url;
+  profileURL.textContent = object.html_url;
   followersP.textContent = `Followers: ${object.followers}`;
   followingP.textContent = `Following: ${object.following}`;
   bio.textContent = `Bio: ${object.bio}`;
@@ -131,3 +138,4 @@ function gitHubProfileMaker (object) {
 
   return card;
 }
+
